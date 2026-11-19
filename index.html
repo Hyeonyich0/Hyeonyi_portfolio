@@ -232,8 +232,8 @@ var IMG={
              {video:"assets/video/kitsch.mp4", poster:"q4"}
              YouTube / Google Drive link (embeds on your own domain):
              {link:"https://youtu.be/ID", embed:"https://www.youtube.com/embed/ID", poster:"t_kitsch"}
-             Drive embed = https://drive.google.com/file/d/FILE_ID/preview
-             Without "embed", the item shows the poster with a button that opens "link" in a new tab.
+             Google Drive links are automatically converted to the in-page preview player.
+             Other providers can set an explicit embed URL; unsupported links open in a new tab.
    preview : optional short, silent loop that plays when the card is hovered:
              preview:"assets/video/kitsch-preview.mp4"
    See README.md for compressing videos. */
@@ -267,7 +267,8 @@ function lbShow(i){
   vd.pause();fr.removeAttribute("src");lb.classList.remove("vid","ifr","lnk");
   if(isVid(m)&&m.video){lb.classList.add("vid");vd.src=m.video;vd.poster=m.poster&&IMG[m.poster]?IMG[m.poster]:"";vd.play().catch(function(){})}
   else if(isVid(m)){vd.removeAttribute("src");vd.load();
-    if(m.embed){lb.classList.add("ifr");fr.src=m.embed}
+    var src=embedUrl(m);
+    if(src){lb.classList.add("ifr");fr.src=src}
     else{lb.classList.add("lnk");im.src=IMG[m.poster]||"";im.alt=LB.alt;$("lba").href=m.link;$("lba").textContent=m.label||"▶ 새 창에서 영상 보기"}}
   else{vd.removeAttribute("src");vd.load();
     im.style.animation="none";void im.offsetWidth;im.style.animation="";im.src=IMG[m];im.alt=LB.alt}
@@ -294,10 +295,20 @@ function unflood(){B.classList.remove("flood")}
 function img(k,alt){return IMG&&IMG[k]?'<img src="'+IMG[k]+'" alt="'+alt+'">':""}
 /* gallery items are either an image key ("k1") or a video {video:"assets/video/x.mp4",poster:"k1"} */
 function isVid(m){return typeof m==="object"}
+function embedUrl(m){
+  if(!m||typeof m!=="object")return "";
+  if(m.link){
+    var driveId=m.link.match(/drive\.google\.com\/file\/d\/([^/?#]+)/i);
+    if(!driveId)driveId=m.link.match(/drive\.google\.com[^#]*[?&]id=([^&#]+)/i);
+    if(driveId)return "https://drive.google.com/file/d/"+driveId[1]+"/preview";
+  }
+  return m.embed||"";
+}
 function big(m,alt){
   if(!isVid(m))return img(m,alt);
   if(m.video)return'<video src="'+m.video+'"'+(m.poster&&IMG[m.poster]?' poster="'+IMG[m.poster]+'"':"")+' controls playsinline preload="metadata"></video><button class="enl" aria-label="Enlarge video">⤢</button>';
-  if(m.embed)return'<iframe src="'+m.embed+'" title="'+alt+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
+  var src=embedUrl(m);
+  if(src)return'<iframe src="'+src+'" title="'+alt+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
   return'<a class="ext" href="'+m.link+'" target="_blank" rel="noopener">'+img(m.poster,alt)+'<span class="go">'+(m.label||"▶ 새 창에서 영상 보기")+'</span></a>';
 }
 function thumbImg(m){return isVid(m)?(m.poster?img(m.poster,""):"")+'<i class="pl">▶</i>':img(m,"")}
