@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>조현이 Portfolio</title>
+<meta name="description" content="조현이(CHO HYEONYI) 디자인 포트폴리오">
+<meta property="og:title" content="조현이 Portfolio">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#fdfdfc">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+:root{
+  --bg:#fdfdfc;--ink:#15151a;--mute:#6c6c75;
+  --pink:#f1536f;--c1:#f1536f;--c2:#f1536f;--c3:#f1536f;--c4:#f1536f;
+  --font:"Bricolage Grotesque","Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101014;--ink:#f4f4f1;--mute:#9a9aa3}}
+:root[data-theme="dark"]{--bg:#101014;--ink:#f4f4f1;--mute:#9a9aa3}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);transition:background .55s ease,color .55s ease}
+body.flood{background:var(--flood);color:var(--ffg)}
+body.flood .mute{color:inherit;opacity:.72}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.mute{color:var(--mute);transition:color .55s}
+
+.view{position:absolute;z-index:1;inset:0;display:none;flex-direction:column;padding:0 clamp(20px,5vw,56px) clamp(16px,3vh,32px);overflow:auto;overscroll-behavior:contain}
+.view.on{display:flex}
+.bar{flex:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 0;font-weight:600}
+.back{background:none;border:1.5px solid currentColor;border-radius:99px;padding:7px 18px;cursor:pointer;font-weight:600;transition:background .2s,color .2s}
+.back:hover{background:currentColor}
+.back:hover>*{mix-blend-mode:difference}
+.pn{display:flex;gap:8px}
+
+/* cover */
+.stage{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-height:0}
+.mark{position:absolute;left:50%;top:44%;width:min(58vw,50vh);aspect-ratio:800/744;transform:translate(-50%,-50%);z-index:2;color:var(--ink);background-color:currentColor;-webkit-mask:url(assets/mark.png) center/contain no-repeat;mask:url(assets/mark.png) center/contain no-repeat;outline:none;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:color .25s ease,transform .4s cubic-bezier(.3,1.5,.5,1)}
+.mark:hover{transform:translate(-50%,-50%) scale(1.05)}
+.mark.held{transform:translate(-50%,-50%) scale(.94)}
+.paint{position:fixed;inset:0;background:var(--pink);z-index:0;pointer-events:none;clip-path:circle(0px at 50% 50%)}
+body.press{color:#15151a}
+body.press .mute{color:inherit;opacity:.7}
+body.press .b-about{background:#fff}
+.hint{position:relative;z-index:3;margin:0 0 14px;font-size:14px;pointer-events:none}
+.cta{display:flex;gap:14px;margin-bottom:clamp(8px,3vh,28px);flex-wrap:wrap;justify-content:center;position:relative;z-index:3}
+.cta button{border:0;border-radius:99px;padding:16px 36px;font-weight:800;font-size:clamp(18px,2.2vw,26px);letter-spacing:-.01em;cursor:pointer;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.cta button:hover{transform:scale(1.07) rotate(-2deg)}
+.b-works{background:var(--ink);color:var(--bg)}
+.b-about{background:var(--pink);color:#15151a}
+
+/* works */
+.grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:clamp(12px,2vw,28px)}
+.card{display:flex;flex-direction:column;min-height:0;text-decoration:none;perspective:900px}
+.ph{position:relative;flex:1;min-height:0;border-radius:20px;overflow:hidden;background:var(--c);transform-style:preserve-3d;transition:transform .25s ease,border-radius .35s ease}
+.card:hover .ph,.card:focus-visible .ph{border-radius:40px}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph span{position:absolute;left:14px;bottom:12px;font-weight:600;font-size:13px;color:#15151a;background:#ffffffd9;border-radius:99px;padding:5px 12px}
+.meta{flex:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:9px}
+.meta h3{margin:0;font-size:clamp(15px,1.6vw,20px);letter-spacing:-.015em}
+.meta p{margin:0;font-size:13px;text-align:right}
+
+/* detail */
+.d-body{flex:1;min-height:0;display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(20px,4vw,56px)}
+.gal{display:flex;flex-direction:column;gap:12px;min-height:0}
+.main{flex:1;min-height:0;border-radius:22px;overflow:hidden;background:var(--c);cursor:zoom-in}
+.main img{width:100%;height:100%;object-fit:contain;display:block;animation:fin .4s ease}
+@keyframes fin{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+.thumbs{flex:none;display:flex;gap:10px;height:clamp(52px,11vh,92px)}
+.thumbs button{aspect-ratio:16/9;height:100%;border:0;padding:0;border-radius:12px;overflow:hidden;cursor:pointer;opacity:.5;background:var(--c);transition:opacity .2s}
+.thumbs button.on,.thumbs button:hover{opacity:1}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.info{min-height:0;display:flex;flex-direction:column;gap:14px;justify-content:center}
+.title{font-size:clamp(30px,4.6vw,64px);letter-spacing:-.03em;line-height:1;margin:0;font-weight:800}
+.sub{margin:0;font-size:clamp(15px,1.5vw,19px);font-weight:600}
+.desc{margin:0;line-height:1.65;font-size:clamp(14px,1.2vw,16px);max-width:34em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips b{font-weight:600;font-size:13px;border:1.5px solid currentColor;border-radius:99px;padding:4px 13px}
+.sws{display:flex;gap:12px;flex-wrap:wrap}
+.sw{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;cursor:pointer;font-size:11px}
+.sw i{display:block;width:clamp(34px,3.6vw,48px);aspect-ratio:1;border-radius:50%;border:1.5px solid #00000026;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.sw:hover i,.sw:focus-visible i{transform:scale(1.22)}
+.rows{display:grid;gap:7px;font-size:14px}
+.row{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center}
+.role{display:grid;grid-template-columns:64px 1fr 40px;gap:10px;align-items:center}
+.role i{display:block;height:8px;border-radius:9px;background:currentColor;width:var(--w);transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both .25s}
+@keyframes grow{from{transform:scaleX(0)}}
+
+/* about */
+.about-body{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(24px,5vw,72px);align-items:center}
+.who{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.photo{height:min(40vh,360px);aspect-ratio:3/4;background:var(--c4);border-radius:42% 58% 55% 45%/50% 45% 55% 50%;overflow:hidden;transition:border-radius .6s ease}
+.photo:hover{border-radius:24px}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.who h2{margin:0;font-size:clamp(26px,3.4vw,44px);letter-spacing:-.025em;font-weight:800;line-height:1.05}
+.who p,.xp p{margin:0;line-height:1.5}
+.xp{display:grid;gap:clamp(10px,1.8vh,18px)}
+.xp>div{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:baseline;border-top:1.5px solid currentColor;padding-top:10px}
+.xp h3{margin:0;font-size:13px;font-weight:600}
+.xp b{font-weight:600}
+.skills{display:flex;flex-wrap:wrap;gap:8px}
+.skills b{font-weight:600;font-size:14px;border:1.5px solid currentColor;border-radius:99px;padding:5px 14px;transition:background .2s,color .2s,border-color .2s}
+.skills b:hover{background:var(--k);border-color:var(--k);color:#15151a}
+.mail{font-size:clamp(18px,2vw,26px);font-weight:800;letter-spacing:-.02em;text-decoration:none;padding:6px 18px;margin-left:-18px;border-radius:99px;transition:background .3s,color .3s}
+.mail:hover{background:var(--c1);color:#fff}
+
+.ex .e{display:block;margin-bottom:9px}.ex .e:last-child{margin-bottom:0}.ex .e>*{display:block}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(10,10,12,.93);display:none;align-items:center;justify-content:center;padding:calc(56px + env(safe-area-inset-top,0px)) 16px calc(40px + env(safe-area-inset-bottom,0px))}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;display:block;border-radius:6px;animation:fin .35s ease;touch-action:pan-y}
+.lb button{position:absolute;width:46px;height:46px;border-radius:50%;border:0;background:#ffffff26;color:#fff;font-size:22px;line-height:1;cursor:pointer;transition:background .2s}
+.lb button:hover{background:#ffffff4d}
+.lbx{top:calc(8px + env(safe-area-inset-top,0px));right:12px}
+.lbp{left:10px;top:50%;margin-top:-23px}
+.lbn{right:10px;top:50%;margin-top:-23px}
+.lbc{position:absolute;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:#ffffffb3;font-size:13px}
+.pv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s;pointer-events:none}
+.pv.on{opacity:1}
+.ph span{z-index:2}
+.main{position:relative}
+.main video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.enl{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;background:#0000008c;color:#fff;font-size:18px;cursor:pointer}
+.thumbs button{position:relative}
+.pl{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-style:normal;font-size:18px;background:#0000004d}
+.lb video{display:none;max-width:100%;max-height:100%;border-radius:6px;background:#000}
+.lb.vid video{display:block}
+.lb.vid #lbi{display:none}
+.main iframe{width:100%;height:100%;border:0;display:block;background:#000}
+.main a.ext{position:relative;display:block;width:100%;height:100%}
+.main a.ext img{width:100%;height:100%;object-fit:cover;display:block;animation:none}
+.go,.lba{background:var(--pink);color:#15151a;font-weight:700;border-radius:99px;padding:14px 26px;font-size:16px;white-space:nowrap;text-decoration:none}
+.go{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
+a.ext:hover .go{transform:translate(-50%,-50%) scale(1.06)}
+.lb iframe{display:none;width:min(94vw,1200px);aspect-ratio:16/9;max-height:100%;border:0;border-radius:6px;background:#000}
+.lb.ifr iframe{display:block}
+.lb.ifr #lbi{display:none}
+.lba{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.lb.lnk .lba{display:block}
+.wipe{position:fixed;inset:0;display:none;z-index:50;pointer-events:none}
+
+@media (max-width:760px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}
+  .meta p,.hint{display:none}
+  .d-body,.about-body{grid-template-columns:1fr;align-content:start}
+  .gal{height:38vh}
+  .photo{height:22vh}
+  .xp>div{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<section class="view home on" id="home" aria-label="Cover">
+  <div class="bar"><span>조현이 CHO HYEONYI</span><span class="mute">Portfolio 2026</span></div>
+  <div class="stage">
+    <div class="mark" id="mark" role="img" aria-label="조현이 로고. 가까이 가면 핑크로 바뀌고, 누르고 있으면 화면이 핑크로 물들어요"></div>
+    <p class="hint mute">Press and hold the mark</p>
+    <div class="cta">
+      <button class="b-works" data-go="works">Works</button>
+      <button class="b-about" data-go="about">About</button>
+    </div>
+  </div>
+  </section>
+
+<section class="view works" id="works" aria-label="Works">
+  <div class="bar"><button class="back" data-go="home">Back</button><span>Works</span></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="view detail" id="detail" aria-label="Project">
+  <div class="bar"><button class="back" data-go="works">Works</button><div class="pn"><button class="back" id="prev">Prev</button><button class="back" id="next">Next</button></div></div>
+  <div class="d-body"><div class="gal"><div class="main" id="main"></div><div class="thumbs" id="thumbs"></div></div><div class="info" id="info"></div></div>
+</section>
+
+<section class="view about" id="about" aria-label="About">
+  <div class="bar"><button class="back" data-go="home">Back</button><span>About</span></div>
+  <div class="about-body">
+    <div class="who">
+      <div class="photo" id="photo"></div>
+      <h2>조현이<br>CHO HYEONYI</h2>
+      <p>서울대학교 디자인학부 디자인과 재학<br><span class="mute">2024.03 –</span></p>
+      <a class="mail" href="mailto:chohyeonyi@snu.ac.kr">chohyeonyi@snu.ac.kr</a>
+    </div>
+    <div class="xp">
+      <div><h3 class="mute">Experiences</h3><p class="ex"><span class="e"><b>Study Abroad Program (SAP), Waseda University</b><span class="mute">2027.01 – 2027.02</span></span><span class="e"><b>신한은행 대학생 홍보대사 44기</b><span class="mute">2026.02 – 2026.06</span></span><span class="e"><b>국가보훈부 2030 자문단 2기</b><span class="mute">2024.12 – 2025.12</span></span><span class="e"><b>서울시민예산참여위원</b><span class="mute">2024.04 – 2025.01</span></span></p></div>
+      <div><h3 class="mute">Language</h3><p>JLPT N2 <span class="mute">2026.07</span></p></div>
+      <div><h3 class="mute">Skills</h3><div class="skills" id="skills"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><button class="lbx" id="lbx" aria-label="Close">✕</button><button class="lbp" id="lbp" aria-label="Previous image">←</button><img id="lbi" alt=""><video id="lbv" controls playsinline></video><iframe id="lbf" title="Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><a class="lba" id="lba" href="#" target="_blank" rel="noopener">▶ 새 창에서 영상 보기</a><button class="lbn" id="lbn" aria-label="Next image">→</button><div class="lbc" id="lbc"></div></div>
+<div class="paint" id="paint"></div>
+<div class="wipe" id="wipe"></div>
+
+<script>
+var IMG={
+ "t_kitsch": "assets/img/thumb-kitsch.jpg",
+ "t_moudi": "assets/img/thumb-moudi.jpg",
+ "t_domyzing": "assets/img/thumb-domyzing.jpg",
+ "t_manual": "assets/img/thumb-manual.jpg",
+ "t_worksol": "assets/img/thumb-worksol.jpg",
+ "t_kaitakusha": "assets/img/thumb-kaitakusha.jpg",
+ "q2": "assets/img/kitsch-1.jpg",
+ "q3": "assets/img/kitsch-2.jpg",
+ "q4": "assets/img/kitsch-3.jpg",
+ "m1": "assets/img/moudi-1.jpg",
+ "m2": "assets/img/moudi-2.jpg",
+ "d1": "assets/img/domyzing-1.jpg",
+ "d2": "assets/img/domyzing-2.jpg",
+ "d3": "assets/img/domyzing-3.jpg",
+ "a1": "assets/img/manual-1.jpg",
+ "a2": "assets/img/manual-2.jpg",
+ "a3": "assets/img/manual-3.jpg",
+ "w1": "assets/img/worksol-1.jpg",
+ "w2": "assets/img/worksol-2.jpg",
+ "k1": "assets/img/kaitakusha-1.jpg",
+ "k2": "assets/img/kaitakusha-2.jpg",
+ "profile": "assets/img/profile.jpg"
+};
+/* ── PROJECT CONFIG ─────────────────────────────────────────────
+   imgs    : gallery order. An entry is an image key from IMG above, or a video:
+             {video:"assets/video/kitsch.mp4", poster:"q4"}
+             YouTube / Google Drive link (embeds on your own domain):
+             {link:"https://youtu.be/ID", embed:"https://www.youtube.com/embed/ID", poster:"t_kitsch"}
+             Drive embed = https://drive.google.com/file/d/FILE_ID/preview
+             Without "embed", the item shows the poster with a button that opens "link" in a new tab.
+   preview : optional short, silent loop that plays when the card is hovered:
+             preview:"assets/video/kitsch-preview.mp4"
+   See README.md for compressing videos. */
+var PROJECTS=[
+ {id:"kitsch",title:"KITSCH",tag:"3D Motion Graphics",color:"#ff8fb8",fg:"#15151a",imgs:[{link:"https://youtu.be/v3xg5QRpj8I",embed:"https://www.youtube.com/embed/v3xg5QRpj8I",poster:"t_kitsch"},"q2", "q3", "q4"],
+  desc:"CRYBABY Crying Again Series의 I’LL GIVE YOU ALL MY LOVE 캐릭터를 메인으로 키치한 무드를 표현하는 3D Motion Graphic을 제작하였습니다. 피규어의 경험들이 아기자기한 오브제들과 함께 어우러져 시각적인 즐거움을 선사합니다.",
+  kw:["Kitsch","Pink","POP","Cute"],colors:[],tool:"Blender, Premiere Pro",year:"2025",type:"Personal Work",roles:[]},
+ {id:"moudi",title:"Moudi",tag:"AI Generated Playlist",color:"#9fa3ef",fg:"#15151a",imgs:["m1", "m2",{link:"https://www.figma.com/proto/yNQvG4PYTLaZkCeGVj2qMr/ui-project?node-id=1-2&p=f&viewport=167%2C345%2C0.1&t=mlBLV79R1PAbqCOP-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A2&page-id=0%3A1",embed:"https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FyNQvG4PYTLaZkCeGVj2qMr%2Fui-project%3Fnode-id%3D1-2%26p%3Df%26viewport%3D167%252C345%252C0.1%26t%3DmlBLV79R1PAbqCOP-1%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D1%253A2%26page-id%3D0%253A1",poster:"t_moudi",label:"▶ 프로토타입 열기"}],
+  desc:"Moudi는 기분, 장르, 재생시간을 고르면 AI가 나만의 플레이리스트를 만들어주는 어플리케이션입니다. 블러 오브제와 파스텔 톤의 비주얼로 몽환적이고 편안한 감성을 담으며, 나만을 위해 제공되는 새로운 음악에 대한 경험을 제공합니다.",
+  kw:["Soft","Blur","Dreamy","Pastel Purple"],colors:["#9FA3EF","#9992EE","#BCA2E9","#C3BEF3"],tool:"Figma, Photoshop",year:"2025",type:"Personal Work",roles:[]},
+ {id:"domyzing",title:"DO MY ZING",tag:"철원 DMZ 평화 마라톤 리브랜딩",color:"#ff9a00",fg:"#15151a",imgs:["d1", "d2", "d3"],
+  desc:"Do My Zing 평화마라톤은 평소 경험할 수 없는 DMZ를 달리는 경험과 함께 활력을 제공합니다. 밝고 에너지가 느껴지는 메인 컬러와 캐릭터들은 브랜드가 가진 활기를 대표적으로 보여줍니다.",
+  kw:["Energy","Fun","Running","Vibrancy"],colors:["#FE4A4B","#488100","#FF9A00","#1683E0","#D4ADD9"],tool:"Illustrator, Photoshop",year:"2026",type:"Rebranding",roles:[["기획",25],["디자인",100]]},
+ {id:"manual",title:"MANUAL",tag:"Editorial Design",color:"#1c499e",fg:"#ffffff",imgs:["a1", "a2", "a3"],
+  desc:"세상의 설명들은 다양한 방식으로 도식화됩니다. 조립방법부터 분해도, 조리법 등은 일상에서 흔히 접할 수 있는 메뉴얼입니다. &lt;MANUAL&gt;에서는 이러한 일반적인 메뉴얼의 형식과 내용을 파괴하고 재구성합니다.",
+  kw:["Blue","Menu","Daily","Origami"],colors:["#1C499E","#FFFFFF"],tool:"Illustrator, Photoshop",year:"2026",type:"Personal Work",roles:[]},
+ {id:"worksol",title:"워크쏠",tag:"신한은행 대학생 홍보대사 롱폼 콘텐츠",color:"#f06bd8",fg:"#15151a",imgs:[{link:"https://drive.google.com/file/d/1EY01RA2NJqNXqdqtNMUJqQa8qoTcYtLu/view?usp=sharing",embed:"https://drive.google.com/file/d/1EY01RA2NJqNXqdqtNMUJqQa8qoTcYtLu/preview",poster:"t_worksol"},"w1", "w2"],
+  desc:"워크쏠은 ‘세계 강아지의 날'을 맞아 유기견과 관련된 사회적 이슈에 대한 2030 세대의 관심을 환기하기 위해 제작된 콘텐츠입니다. 기존의 예능 &lt;워크돌&gt;의 형식을 차용하여 익숙한 방식으로의 접근과 정보 전달을 계획하였습니다.",
+  kw:["Fun","Trend","Friendly"],colors:[],tool:"Illustrator, Premiere Pro, After Effects",year:"2026",type:"Shinhan Bank",roles:[["기획",20],["편집",100]]},
+ {id:"kaitakusha",title:"開拓者",tag:"KageBow 開拓者 MV 리디자인",color:"#ea2a00",fg:"#ffffff",imgs:[{video:"assets/video/kagebow.mp4",poster:"t_kaitakusha"}, "k1", "k2"],
+  desc:"기존의 전통적이고 브라운 중심의 컬러를 사용한 KageBow-開拓者 MV를 현대적이고 기계적인 방식으로 리디자인하였습니다. Scene 추출에 AI를 활용하고, 영상과 음악을 재편집하였습니다.",
+  kw:["Contemporary","Cool","Mechanical"],colors:["#EA2A00","#032F47","#B3B3B3"],tool:"Photoshop, Premiere Pro, Cubase, ChatGPT, Runway, Midjourney",year:"2026",type:"Personal Work",roles:[]}
+];
+PROJECTS.forEach(function(p){p.thumb="t_"+p.id});
+var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+var calm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+var B=document.body,$=function(i){return document.getElementById(i)};
+var LB={on:false,i:0,list:[],alt:"",pick:null};
+function lbShow(i){
+  var n=LB.list.length;LB.i=(i+n)%n;var im=$("lbi"),vd=$("lbv"),fr=$("lbf"),lb=$("lb"),m=LB.list[LB.i];
+  vd.pause();fr.removeAttribute("src");lb.classList.remove("vid","ifr","lnk");
+  if(isVid(m)&&m.video){lb.classList.add("vid");vd.src=m.video;vd.poster=m.poster&&IMG[m.poster]?IMG[m.poster]:"";vd.play().catch(function(){})}
+  else if(isVid(m)){vd.removeAttribute("src");vd.load();
+    if(m.embed){lb.classList.add("ifr");fr.src=m.embed}
+    else{lb.classList.add("lnk");im.src=IMG[m.poster]||"";im.alt=LB.alt;$("lba").href=m.link;$("lba").textContent=m.label||"▶ 새 창에서 영상 보기"}}
+  else{vd.removeAttribute("src");vd.load();
+    im.style.animation="none";void im.offsetWidth;im.style.animation="";im.src=IMG[m];im.alt=LB.alt}
+  $("lbc").textContent=(LB.i+1)+" / "+n;
+  if(LB.pick)LB.pick(LB.i);
+}
+function openLb(p,i,pick){
+  LB.list=p.imgs;LB.alt=p.title;LB.pick=pick;LB.on=true;
+  $("lbp").style.display=$("lbn").style.display=p.imgs.length>1?"":"none";
+  $("lb").classList.add("on");lbShow(i);$("lbx").focus({preventScroll:true});
+}
+function closeLb(){if(!LB.on)return;LB.on=false;$("lb").classList.remove("on","vid","ifr","lnk");$("lbi").removeAttribute("src");var v=$("lbv");v.pause();v.removeAttribute("src");v.load();$("lbf").removeAttribute("src")}
+function lbGo(d){lbShow(LB.i+d)}
+$("lbx").onclick=closeLb;$("lbp").onclick=function(){lbGo(-1)};$("lbn").onclick=function(){lbGo(1)};
+$("lb").addEventListener("click",function(e){if(e.target.id==="lb")closeLb()});
+(function(){var x0=0;var im=$("lbi");
+  im.addEventListener("pointerdown",function(e){x0=e.clientX});
+  im.addEventListener("pointerup",function(e){var d=e.clientX-x0;if(Math.abs(d)>60&&LB.list.length>1)lbGo(d<0?1:-1)});
+})();
+
+function lum(h){h=h.replace("#","");var r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);return(.299*r+.587*g+.114*b)/255}
+function flood(c,fg){B.style.setProperty("--flood",c);B.style.setProperty("--ffg",fg||(lum(c)<.5?"#fff":"#15151a"));B.classList.add("flood")}
+function unflood(){B.classList.remove("flood")}
+function img(k,alt){return IMG&&IMG[k]?'<img src="'+IMG[k]+'" alt="'+alt+'">':""}
+/* gallery items are either an image key ("k1") or a video {video:"assets/video/x.mp4",poster:"k1"} */
+function isVid(m){return typeof m==="object"}
+function big(m,alt){
+  if(!isVid(m))return img(m,alt);
+  if(m.video)return'<video src="'+m.video+'"'+(m.poster&&IMG[m.poster]?' poster="'+IMG[m.poster]+'"':"")+' controls playsinline preload="metadata"></video><button class="enl" aria-label="Enlarge video">⤢</button>';
+  if(m.embed)return'<iframe src="'+m.embed+'" title="'+alt+' video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
+  return'<a class="ext" href="'+m.link+'" target="_blank" rel="noopener">'+img(m.poster,alt)+'<span class="go">'+(m.label||"▶ 새 창에서 영상 보기")+'</span></a>';
+}
+function thumbImg(m){return isVid(m)?(m.poster?img(m.poster,""):"")+'<i class="pl">▶</i>':img(m,"")}
+
+if(IMG&&IMG.profile)$("photo").innerHTML=img("profile","조현이");
+var SK=["Photoshop","Figma","Illustrator","Cubase","Premiere Pro","After Effects","Blender"],KC=["#2d4bff","#ff6a4d","#d4f53c","#b8a6ff"];
+$("skills").innerHTML=SK.map(function(s,i){return'<b style="--k:'+KC[i%4]+'">'+s+'</b>'}).join("");
+
+PROJECTS.forEach(function(p){
+  var a=document.createElement("a");
+  a.className="card";a.href="#work-"+p.id;
+  a.innerHTML='<div class="ph" style="--c:'+p.color+'">'+img(p.thumb||p.imgs[0],p.title)+'<span>View project</span></div><div class="meta"><h3>'+p.title+'</h3><p class="mute">'+p.tag+'</p></div>';
+  var ph=a.querySelector(".ph"),pv=null;
+  if(p.preview){ph.insertAdjacentHTML("beforeend",'<video class="pv" src="'+p.preview+'" muted loop playsinline preload="none"></video>');pv=ph.querySelector(".pv")}
+  function on(){flood(p.color,p.fg);if(pv){pv.classList.add("on");pv.play().catch(function(){})}}
+  function off(){unflood();ph.style.transform="";if(pv){pv.classList.remove("on");pv.pause()}}
+  a.addEventListener("mouseenter",on);a.addEventListener("mouseleave",off);
+  a.addEventListener("focus",on);a.addEventListener("blur",off);
+  a.addEventListener("click",function(e){e.preventDefault();hit(e,"work-"+p.id)});
+  if(fine&&!calm)a.addEventListener("mousemove",function(e){
+    var r=ph.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    ph.style.transform="rotateY("+(x*12)+"deg) rotateX("+(-y*12)+"deg) scale(1.02)";
+  });
+  $("grid").appendChild(a);
+});
+
+/* project detail */
+function idx(id){for(var i=0;i<PROJECTS.length;i++)if(PROJECTS[i].id===id)return i;return -1}
+function renderDetail(id){
+  var i=idx(id),p=PROJECTS[i],n=PROJECTS.length;
+  $("prev").setAttribute("data-go","work-"+PROJECTS[(i+n-1)%n].id);
+  $("next").setAttribute("data-go","work-"+PROJECTS[(i+1)%n].id);
+  var cur=0,main=$("main"),th=$("thumbs");
+  main.style.setProperty("--c",p.color);
+  function pick(k){
+    cur=k;main.innerHTML=big(p.imgs[k],p.title);
+    [].forEach.call(th.children,function(b,j){b.classList.toggle("on",j===k)});
+  }
+  th.innerHTML=p.imgs.map(function(k,j){return'<button style="--c:'+p.color+'" aria-label="Image '+(j+1)+'">'+thumbImg(k)+'</button>'}).join("");
+  [].forEach.call(th.children,function(b,j){b.onclick=function(){pick(j)}});
+  main.onclick=function(e){if(!isVid(p.imgs[cur])||e.target.classList.contains("enl"))openLb(p,cur,pick)};main.setAttribute("title","Click to enlarge");
+  pick(0);
+  var h='<h2 class="title">'+p.title+'</h2><p class="sub">'+p.tag+'</p><p class="desc">'+p.desc+'</p>';
+  h+='<div class="chips">'+p.kw.map(function(k){return"<b>"+k+"</b>"}).join("")+"</div>";
+  if(p.colors.length)h+='<div class="sws">'+p.colors.map(function(c){return'<button class="sw" data-c="'+c+'" aria-label="Color '+c+'"><i style="background:'+c+'"></i>'+c+"</button>"}).join("")+"</div>";
+  h+='<div class="rows"><div class="row"><span class="mute">Type</span><span>'+p.type+'</span></div><div class="row"><span class="mute">Tool</span><span>'+p.tool+'</span></div><div class="row"><span class="mute">Year</span><span>'+p.year+"</span></div>";
+  p.roles.forEach(function(r){h+='<div class="role"><span class="mute">'+r[0]+'</span><i style="--w:'+r[1]+'%"></i><b>'+r[1]+"%</b></div>"});
+  $("info").innerHTML=h+"</div>";
+  [].forEach.call($("info").querySelectorAll(".sw"),function(b){
+    var c=b.getAttribute("data-c");
+    b.onmouseenter=b.onfocus=function(){flood(c)};
+    b.onmouseleave=b.onblur=unflood;
+  });
+}
+
+/* screen navigation: hash routes with a colour wipe */
+var views={home:$("home"),works:$("works"),detail:$("detail"),about:$("about")};
+var wipe=$("wipe"),cur="home",busy=false,origin=null;
+function key(n){return n.indexOf("work-")===0?"detail":n}
+function valid(n){return views[n]&&n!=="detail"||(n.indexOf("work-")===0&&idx(n.slice(5))>=0)}
+function colorFor(n){
+  if(n==="works")return"#15151a";if(n==="about")return"#f1536f";
+  if(n.indexOf("work-")===0)return PROJECTS[idx(n.slice(5))].color;
+  return getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()||"#fff";
+}
+function show(n){
+  closeLb();var k=key(n);if(k==="detail")renderDetail(n.slice(5));
+  Object.keys(views).forEach(function(v){views[v].classList.toggle("on",v===k)});
+  unflood();cur=n;
+  var f=views[k].querySelector("button,a");if(f&&k!=="home")f.focus({preventScroll:true});
+}
+function go(n){
+  if(!valid(n)||busy||n===cur)return;
+  if(calm){show(n);return}
+  var o=origin||{x:innerWidth/2,y:innerHeight/2};origin=null;
+  var pos=o.x+"px "+o.y+"px";
+  busy=true;wipe.style.background=colorFor(n);wipe.style.display="block";
+  wipe.animate([{clipPath:"circle(0px at "+pos+")"},{clipPath:"circle(150vmax at "+pos+")"}],{duration:520,easing:"cubic-bezier(.7,0,.2,1)",fill:"forwards"}).finished
+  .then(function(){show(n);return wipe.animate([{opacity:1},{opacity:0}],{duration:300,fill:"forwards"}).finished})
+  .then(function(){wipe.getAnimations().forEach(function(a){a.cancel()});wipe.style.display="none";busy=false;route()})
+  .catch(function(){busy=false;show(n)});
+}
+function route(){var n=location.hash.slice(1);if(!valid(n))n="home";go(n)}
+function hit(e,n){
+  var t=e.currentTarget,r=t.getBoundingClientRect();
+  origin=e.detail===0?{x:r.left+r.width/2,y:r.top+r.height/2}:{x:e.clientX,y:e.clientY};
+  if(location.hash==="#"+n)go(n);else location.hash=n;
+}
+addEventListener("hashchange",route);
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-go]");if(!b)return;
+  hit({currentTarget:b,detail:e.detail,clientX:e.clientX,clientY:e.clientY},b.getAttribute("data-go"));
+});
+addEventListener("keydown",function(e){
+  if(LB.on){if(e.key==="Escape")closeLb();else if(e.key==="ArrowRight"&&LB.list.length>1)lbGo(1);else if(e.key==="ArrowLeft"&&LB.list.length>1)lbGo(-1);return}
+  if(e.key==="Escape"&&cur!=="home")location.hash=key(cur)==="detail"?"works":"home";
+  if(key(cur)==="detail"&&(e.key==="ArrowRight"||e.key==="ArrowLeft"))$(e.key==="ArrowRight"?"next":"prev").click();
+});
+route();
+
+/* logo mark: pink on approach, page-wide pink while pressed */
+(function(){
+var mk=$("mark"),pt=$("paint"),PK=[241,83,111],down=false,lx=0,ly=0;
+function ink(){var h=getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();return[1,3,5].map(function(i){return parseInt(h.substr(i,2),16)})}
+function sst(a,b,x){var t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)}
+function tint(e){
+  if(down){mk.style.color="#15151a";return}
+  var r=mk.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2)),R=r.width/2;
+  var t=1-sst(R*.7,R*1.9,d),a=ink();
+  mk.style.color="rgb("+a.map(function(v,i){return Math.round(v+(PK[i]-v)*t)}).join(",")+")";
+}
+addEventListener("pointermove",function(e){lx=e.clientX;ly=e.clientY;if(views.home.classList.contains("on"))tint(e)});
+document.documentElement.addEventListener("mouseleave",function(){if(!down)mk.style.color=""});
+mk.addEventListener("pointerdown",function(e){
+  down=true;mk.setPointerCapture(e.pointerId);mk.classList.add("held");mk.style.color="#15151a";
+  var p=e.clientX+"px "+e.clientY+"px";
+  pt.style.transition="none";pt.style.clipPath="circle(0px at "+p+")";void pt.offsetWidth;
+  pt.style.transition="clip-path .6s cubic-bezier(.7,0,.2,1)";pt.style.clipPath="circle(150vmax at "+p+")";
+  B.classList.add("press");
+});
+function up(e){
+  if(!down)return;down=false;mk.classList.remove("held");
+  var x=e.clientX||lx,y=e.clientY||ly;
+  pt.style.clipPath="circle(0px at "+x+"px "+y+"px)";
+  B.classList.remove("press");tint({clientX:x,clientY:y});
+}
+mk.addEventListener("pointerup",up);mk.addEventListener("pointercancel",up);
+})();
+</script>
+</body>
+</html>
